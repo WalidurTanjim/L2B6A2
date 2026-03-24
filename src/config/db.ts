@@ -51,7 +51,7 @@ const initDB = async() => {
      }catch(err: any) {
           await pool.query('ROLLBACK');
 
-          console.error(err?.message);
+          console.error("Database error from db.ts:", err?.message);
      }
 }
 
