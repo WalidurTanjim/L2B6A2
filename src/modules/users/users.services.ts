@@ -47,9 +47,7 @@ const getUserById = async(id: string) => {
      try{
           const result = await pool.query(`SELECT * FROM users WHERE id=$1`, [id]);
 
-          if(result.rowCount === 0) {
-               throw new AppError("User not found", 400);
-          }
+          if(result.rowCount === 0) throw new AppError("User not found", 400);
 
           return result.rows[0];
      }catch(err: any) {
@@ -57,8 +55,22 @@ const getUserById = async(id: string) => {
      }
 }
 
+// DELETE method
+const deleteUserById = async(id: string) => {
+     try{
+          const result = await pool.query(`DELETE FROM users WHERE id=$1 RETURNING *`, [id]);
+
+          if(result.rowCount === 0) throw new AppError("User not found", 404);
+
+          return result.rows[0];
+     }catch(err: any) {
+          throw new AppError(err?.message || "Something went wrong!", 500);
+     }
+}
+
 export const usersServices = {
      createUser,
      getUsers,
      getUserById,
+     deleteUserById,
 }

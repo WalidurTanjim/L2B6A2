@@ -63,8 +63,22 @@ const getUserById = async(req: Request, res: Response, next: NextFunction) => {
      }
 }
 
+// DELETE method
+const deleteUserById = async(req: Request, res: Response, next: NextFunction) => {
+     // userId
+     const { userId } = req.params;
+     
+     try{
+          await usersServices.deleteUserById(userId as string);
+          res.status(204).send();
+     }catch(err) {
+          next(err);
+     }
+}
+
 export const usersControllers = {
      createUser,
      getUsers,
      getUserById,
+     deleteUserById,
 }

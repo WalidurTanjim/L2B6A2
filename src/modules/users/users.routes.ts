@@ -10,4 +10,7 @@ router.post("/", usersControllers.createUser);
 router.get("/", usersControllers.getUsers);
 router.get("/:userId", usersControllers.getUserById);
 
+// DELETE method
+router.delete("/:userId", usersControllers.deleteUserById);
+
 export const usersRouter = router;
