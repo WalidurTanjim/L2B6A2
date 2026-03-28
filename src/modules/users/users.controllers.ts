@@ -25,6 +25,28 @@ const createUser = async(req: Request, res: Response, next: NextFunction) => {
      }
 }
 
+// GET method
+const getUsers = async(req: Request, res: Response, next: NextFunction) => {
+     try{
+          const result = await usersServices.getUsers();
+
+          if(result.length > 0) {
+               res.status(200).json({
+                    success: true,
+                    message: "Users retrived successfully",
+                    data: result
+               });
+          }else res.status(404).json({
+               success: false,
+               message: "No users available",
+               data: null
+          })
+     }catch(err) {
+          next(err);
+     }
+}
+
 export const usersControllers = {
-     createUser
+     createUser,
+     getUsers,
 }

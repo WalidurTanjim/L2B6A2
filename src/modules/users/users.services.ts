@@ -23,7 +23,7 @@ const createUser = async(payload: User) => {
                const detail = err?.detail || "";
 
                if (detail.includes("email")) {
-               throw new AppError("Email already exists", 409);
+                    throw new AppError("Email already exists", 409);
                }
 
                throw new AppError("Duplicate field value", 409);
@@ -33,6 +33,17 @@ const createUser = async(payload: User) => {
      }
 };
 
+// GET method
+const getUsers = async() => {
+     try{
+          const result = await pool.query(`SELECT * FROM users`);
+          return result.rows;
+     }catch(err: any) {
+          throw new AppError(err?.message || "Something went wrong!", 500);
+     }
+}
+
 export const usersServices = {
      createUser,
+     getUsers,
 }
