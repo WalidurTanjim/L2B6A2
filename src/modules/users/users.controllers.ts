@@ -76,9 +76,37 @@ const deleteUserById = async(req: Request, res: Response, next: NextFunction) =>
      }
 }
 
+// PUT method
+const updateUserById = async(req: Request, res: Response, next: NextFunction) => {
+     // userId
+     const { userId } = req.params;
+
+     try{
+          // body
+          const { name, phone, role } = req.body;
+     
+          if(!name) throw new AppError("Name is required", 400);
+          if(!phone) throw new AppError("Phone is required", 400);
+          if(!role) throw new AppError("Role is required", 400);
+
+          const userBody = { name, phone, role };
+
+          const result = await usersServices.updateUserById(userId as string, userBody);
+
+          res.status(201).json({
+               success: true,
+               message: "User updated successfully",
+               data: result
+          })
+     }catch(err) {
+          next(err);
+     }
+}
+
 export const usersControllers = {
      createUser,
      getUsers,
      getUserById,
      deleteUserById,
+     updateUserById
 }

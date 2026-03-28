@@ -1,5 +1,6 @@
 import { pool } from "../../config/db";
 import User from "../../types/user";
+import UserBody from "../../types/userBody";
 import AppError from "../../utils/AppError";
 import bcrypt from "bcryptjs";
 
@@ -68,9 +69,25 @@ const deleteUserById = async(id: string) => {
      }
 }
 
+// PUT method
+const updateUserById = async(id: string, payload: UserBody) => {
+     const { name, phone, role } = payload;
+
+     try{
+          const result = await pool.query(`UPDATE users SET name=$1, phone=$2, role=$3 WHERE id=$4 RETURNING *`, [name, phone, role, id]);
+
+          if(result.rowCount === 0) throw new AppError("User not found", 404);
+
+          return result.rows[0];
+     }catch(err: any) {
+          throw new AppError(err?.message || "Something went wrong!", 500);
+     }
+}
+
 export const usersServices = {
      createUser,
      getUsers,
      getUserById,
      deleteUserById,
+     updateUserById
 }
