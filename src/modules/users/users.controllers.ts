@@ -14,11 +14,12 @@ const createUser = async(req: Request, res: Response, next: NextFunction) => {
           if(!role) throw new AppError("Role is required", 400);
 
           const result = await usersServices.createUser(req.body);
+          const { password: userPassword, ...rest } = await result;
 
           res.status(201).json({
                success: true,
                message: "User created successfully",
-               data: result
+               data: rest
           });
      }catch(err) {
           next(err);
