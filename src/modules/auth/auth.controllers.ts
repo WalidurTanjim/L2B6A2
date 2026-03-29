@@ -17,14 +17,18 @@ const signInUser = async(req: Request, res: Response, next: NextFunction) => {
 
      try{
           const result = await authServices.signInUser(authUser);
-
+          
           if(result === null) throw new AppError("Invalid email", 500)
           if(result === false) throw new AppError("Invalid password", 500)
+                    
+          const { token, user } = result;
+          const { password, ...rest } = user;
+          const newResult = { token, rest };
 
           res.status(200).json({
                success: true,
                message: "Login successful",
-               data: result
+               data: newResult
           })
      }catch(err) {
           next(err);
