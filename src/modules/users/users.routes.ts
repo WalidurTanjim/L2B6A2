@@ -5,16 +5,16 @@ import auth from "../../middleware/auth";
 const router = express.Router();
 
 // POST method
-router.post("/", usersControllers.createUser);
+router.post("/auth/signup", usersControllers.createUser);
 
 // GET method
-router.get("/", auth("admin"), usersControllers.getUsers);
-router.get("/:userId", usersControllers.getUserById);
+router.get("/users/", auth("customer"), usersControllers.getUsers);
+router.get("/users/:userId", usersControllers.getUserById);
 
 // DELETE method
-router.delete("/:userId", usersControllers.deleteUserById);
+router.delete("/users/:userId", usersControllers.deleteUserById);
 
 // PUT method
-router.put("/:userId", usersControllers.updateUserById);
+router.put("/users/:userId", usersControllers.updateUserById);
 
 export const usersRoutes = router;

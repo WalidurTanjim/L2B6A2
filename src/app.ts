@@ -16,7 +16,7 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 // users api route
-app.use("/api/v1/users", usersRoutes);
+app.use("/api/v1", usersRoutes);
 
 // auth api route
 app.use("/api/v1/auth", authRouters);
