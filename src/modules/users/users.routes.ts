@@ -1,5 +1,6 @@
 import express from "express";
 import { usersControllers } from "./users.controllers";
+import auth from "../../middleware/auth";
 
 const router = express.Router();
 
@@ -7,7 +8,7 @@ const router = express.Router();
 router.post("/", usersControllers.createUser);
 
 // GET method
-router.get("/", usersControllers.getUsers);
+router.get("/", auth("admin"), usersControllers.getUsers);
 router.get("/:userId", usersControllers.getUserById);
 
 // DELETE method
