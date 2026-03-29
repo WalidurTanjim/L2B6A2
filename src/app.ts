@@ -1,7 +1,8 @@
 import express, { Request, Response } from "express";
 import initDB from "./config/db";
 import globalErrorHandler from "./middleware/globalErrorHandler";
-import { usersRouter } from "./modules/users/users.routes";
+import { usersRoutes } from "./modules/users/users.routes";
+import { authRouters } from "./modules/auth/auth.routes";
 const app = express();
 
 // parser
@@ -15,7 +16,10 @@ app.get('/', (req: Request, res: Response) => {
 })
 
 // users api route
-app.use("/api/v1/users", usersRouter);
+app.use("/api/v1/users", usersRoutes);
+
+// auth api route
+app.use("/api/v1/auth", authRouters);
 
 // 404 not found route
 app.use((req: Request, res: Response) => {

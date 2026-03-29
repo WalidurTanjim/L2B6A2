@@ -16,4 +16,4 @@ router.delete("/:userId", usersControllers.deleteUserById);
 // PUT method
 router.put("/:userId", usersControllers.updateUserById);
 
-export const usersRouter = router;
+export const usersRoutes = router;
