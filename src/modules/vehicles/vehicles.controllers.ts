@@ -48,7 +48,24 @@ const getVehicles = async(req: Request, res: Response, next: NextFunction) => {
     }
 }
 
+const getVehicleById = async(req: Request, res: Response, next: NextFunction) => {
+    const { vehicleId } = req?.params;
+
+    try{
+        const result = await vehiclesServices.getVehicleById(vehicleId as string);
+
+        res.status(200).json({
+            success: true,
+            message: "User retrived successfully",
+            data: result
+        })
+    }catch(err) {
+        next(err);
+    }
+}
+
 export const vehiclesControllers = {
     createVehicles,
     getVehicles,
+    getVehicleById,
 }

@@ -30,7 +30,22 @@ const getVehicles = async() => {
     }
 }
 
+const getVehicleById = async(vehicleId: string) => {
+    try{
+        const result = await pool.query(`SELECT * FROM vehicles WHERE id=$1`, [vehicleId]);
+
+        if(result.rowCount === 0) throw new AppError("Vehicle not found", 400);
+
+        return result.rows[0];
+    }catch(err: any) {
+        if(err instanceof AppError) throw err;
+
+        throw new AppError(err?.message || "Something went wrong!", 500)
+    }
+}
+
 export const vehiclesServices = {
     createVehicles,
     getVehicles,
+    getVehicleById,
 };
