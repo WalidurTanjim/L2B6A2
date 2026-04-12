@@ -1,0 +1,32 @@
+import { NextFunction, Request, Response } from "express";
+import AppError from "../../utils/AppError";
+import { vehiclesServices } from "./vehicles.services";
+
+// POST method
+const createVehicles = async(req: Request, res: Response, next: NextFunction) => {
+    const validTypes: string[] = ['car', 'bike', 'van', 'suv'];
+    try{
+        const { vehicle_name, type, registration_number, daily_rent_price, availability_status } = req.body;
+
+        if(!vehicle_name) throw new AppError("Vehicle name is requires", 500);
+        if(!type) throw new AppError("Vehicle type is required", 500);
+        if(!validTypes.includes(type.toLowerCase())) throw new AppError("Invalid vehicle type", 400);
+        if(!registration_number) throw new AppError("Registration number is required", 500);
+        if(!daily_rent_price) throw new AppError("Daily rent price is required", 500);
+        if(!availability_status) throw new AppError("Availability status is required", 500);
+
+        const result = await vehiclesServices.createVehicles(req.body);
+
+        res.status(201).json({
+            success: true,
+            message: "Vehicle created successfully",
+            data: result
+        })
+    }catch(err) {
+        next(err);
+    }
+};
+
+export const vehiclesControllers = {
+    createVehicles,
+}
