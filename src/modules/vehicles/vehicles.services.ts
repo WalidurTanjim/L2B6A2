@@ -44,8 +44,24 @@ const getVehicleById = async(vehicleId: string) => {
     }
 }
 
+// DELETE method
+const deleteVehicleById = async(vehicleId: string) => {
+    try{
+        const result = await pool.query(`DELETE FROM vehicles WHERE id=$1 RETURNING *`, [vehicleId]);
+
+        if(result.rowCount === 0) throw new AppError("Vehicle not found", 404);
+
+          return result.rows[0];
+    }catch(err: any) {
+        if(err instanceof AppError) throw err
+
+        throw new AppError(err?.message || "Something went wrong!", 500)
+    }
+}
+
 export const vehiclesServices = {
     createVehicles,
     getVehicles,
     getVehicleById,
+    deleteVehicleById,
 };

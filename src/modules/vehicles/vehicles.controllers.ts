@@ -64,8 +64,21 @@ const getVehicleById = async(req: Request, res: Response, next: NextFunction) =>
     }
 }
 
+// DELETE method
+const deleteVehicleById = async(req: Request, res: Response, next: NextFunction) => {
+    const { vehicleId } = req?.params;
+
+    try{
+        await vehiclesServices.deleteVehicleById(vehicleId as string);
+        res.status(204).send()
+    }catch(err) {
+        next(err)
+    }
+}
+
 export const vehiclesControllers = {
     createVehicles,
     getVehicles,
     getVehicleById,
+    deleteVehicleById,
 }
