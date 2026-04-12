@@ -59,9 +59,27 @@ const deleteVehicleById = async(vehicleId: string) => {
     }
 }
 
+// PUT method
+const updateVehicleById = async(vehicleId: string, payload: Vehicle) => {
+    const { vehicle_name, type, registration_number ,daily_rent_price, availability_status } = payload;
+
+    try{
+        const result = await pool.query(`UPDATE vehicles SET vehicle_name=$1, type=$2, registration_number=$3, daily_rent_price=$4, availability_status=$5 WHERE id=$6 RETURNING *`, [vehicle_name, type, registration_number, daily_rent_price, availability_status, vehicleId]);
+
+         if(result.rowCount === 0) throw new AppError("Vehicle not found", 404);
+
+          return result.rows[0];
+    }catch(err: any) {
+        if(err instanceof AppError) throw err 
+
+        throw new AppError(err?.message || "Something went wrong!" , 500)
+    }
+}
+
 export const vehiclesServices = {
     createVehicles,
     getVehicles,
     getVehicleById,
     deleteVehicleById,
+    updateVehicleById
 };

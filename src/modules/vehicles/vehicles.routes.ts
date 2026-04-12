@@ -13,4 +13,7 @@ router.get('/:vehicleId', vehiclesControllers.getVehicleById)
 // DELETE method
 router.delete('/:vehicleId', vehiclesControllers.deleteVehicleById)
 
+// PUT method
+router.put('/:vehicleId', vehiclesControllers.updateVehicleById)
+
 export const vehiclesRoutes = router;

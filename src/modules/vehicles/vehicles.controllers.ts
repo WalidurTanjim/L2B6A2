@@ -76,9 +76,30 @@ const deleteVehicleById = async(req: Request, res: Response, next: NextFunction)
     }
 }
 
+// PUT method
+const updateVehicleById = async(req: Request, res: Response, next: NextFunction) => {
+    const { vehicleId } = req?.params;
+
+    const { vehicle_name, type, registration_number ,daily_rent_price, availability_status } = req.body;
+    const vehicleBody = { vehicle_name, type, registration_number ,daily_rent_price, availability_status };
+
+    try{
+        const result = await vehiclesServices.updateVehicleById(vehicleId as string, vehicleBody);
+
+        res.status(201).json({
+            success: true,
+            message: "Vehicle updated successfully",
+            data: result
+        })
+    }catch(err) {
+        next(err);
+    }
+}
+
 export const vehiclesControllers = {
     createVehicles,
     getVehicles,
     getVehicleById,
     deleteVehicleById,
+    updateVehicleById
 }
