@@ -70,7 +70,10 @@ const deleteVehicleById = async(req: Request, res: Response, next: NextFunction)
 
     try{
         await vehiclesServices.deleteVehicleById(vehicleId as string);
-        res.status(204).send()
+        res.status(200).json({
+            "success": true,
+            "message": "Vehicle deleted successfully"
+        })
     }catch(err) {
         next(err)
     }
