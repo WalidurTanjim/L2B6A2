@@ -27,6 +27,28 @@ const createVehicles = async(req: Request, res: Response, next: NextFunction) =>
     }
 };
 
+// GET method
+const getVehicles = async(req: Request, res: Response, next: NextFunction) => {
+    try{
+        const result = await vehiclesServices.getVehicles();
+
+        if(result.length > 0) {
+            res.status(200).json({
+                success: true,
+                message: "Vehicles retrived successfully",
+                data: result
+            });
+        }else res.status(404).json({
+            success: false,
+            message: "No vehicles available",
+            data: null
+        })
+    }catch(err) {
+        next(err);
+    }
+}
+
 export const vehiclesControllers = {
     createVehicles,
+    getVehicles,
 }

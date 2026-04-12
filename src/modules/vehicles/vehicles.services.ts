@@ -18,6 +18,19 @@ const createVehicles = async(payload: Vehicle) => {
     }
 }
 
+// GET method
+const getVehicles = async() => {
+    try{
+        const result = await pool.query(`SELECT * FROM vehicles`);
+        return result.rows
+    }catch(err: any) {
+        if(err instanceof AppError) throw err
+
+        throw new AppError(err?.message || "Something went wrong!", 500)
+    }
+}
+
 export const vehiclesServices = {
     createVehicles,
+    getVehicles,
 };
