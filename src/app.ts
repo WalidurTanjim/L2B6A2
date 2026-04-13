@@ -4,6 +4,7 @@ import globalErrorHandler from "./middleware/globalErrorHandler";
 import { usersRoutes } from "./modules/users/users.routes";
 import { authRouters } from "./modules/auth/auth.routes";
 import { vehiclesRoutes } from "./modules/vehicles/vehicles.routes";
+import { bookingsRoutes } from "./modules/bookings/bookings.routes";
 const app = express();
 
 // parser
@@ -24,6 +25,9 @@ app.use("/api/v1/auth", authRouters);
 
 // vehicles api route
 app.use("/api/v1/vehicles", vehiclesRoutes);
+
+// bookings api route
+app.use("/api/v1/bookings", bookingsRoutes)
 
 // 404 not found route
 app.use((req: Request, res: Response) => {
