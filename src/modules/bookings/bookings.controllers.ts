@@ -55,6 +55,24 @@ const createBooking = async(req: Request, res: Response, next: NextFunction) => 
     }
 };
 
+// GET method
+const getBookings = async(req: Request, res: Response, next: NextFunction) => {
+    try{    
+        const result = await bookingsServices.getBookings();
+        
+        if(result.length > 0){
+            res.status(200).json({
+                success: true,
+                message: "Your bookings retrieved successfully",
+                data: result
+            })
+        }
+    }catch(err) {
+        next(err);
+    }
+}
+
 export const bookingsControllers = {
     createBooking,
+    getBookings,
 }

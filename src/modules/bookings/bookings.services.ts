@@ -33,6 +33,21 @@ const createBooking = async(payload: Booking) => {
     }
 }
 
+// GET method
+const getBookings = async() => {
+    try{
+        const result = await pool.query(`SELECT * FROM bookings`);
+
+        const bookings = result.rows;
+        return bookings;
+    }catch(err: any) {
+        if(err instanceof AppError) throw err;
+
+        throw new AppError(err?.message || "Something went wrong!", 500);
+    }
+}
+
 export const bookingsServices = {
     createBooking,
+    getBookings,
 }
